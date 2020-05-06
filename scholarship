@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+#define ll long long int
+bool cb(ll n,ll m,ll x, ll y,ll mid){
+	return (mid*x <= m + (n-mid)*y);
+}
+int main() {
+	ll n,m,x,y;
+	cin>>n>>m>>x>>y;
+
+	ll start = 0;
+	ll end = n;
+	ll ans = -1;
+	while(start <= end){
+		ll mid = start +(end-start)/2;
+		if(cb(n,m,x,y,mid)){
+			start = mid+1;
+			ans = mid;
+		}
+		else{
+			end = mid-1;
+		}
+	}
+	cout<<ans<<endl;
+	return 0;
+}
