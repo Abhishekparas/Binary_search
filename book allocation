@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool isvalid(long long int arr[1001],long long int n,long long int m,long long int ans){
+	long long int students =1;
+	long long int pages = 0;
+	for(int i=0; i<n;i++)
+	{
+		if(arr[i]>ans)
+		{
+			return false;
+		}
+		if(pages+arr[i] > ans)
+		{ // suppose ans is 50 :.  s1 = 10+20  s2 = 30  s3 = 40 but it exceeds the number of students(k) i.e is 2 :. it will return false
+			pages = arr[i];
+			students++;
+			if(students>m)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			pages += arr[i];
+		}
+		
+	}
+	return true;
+}
+
+long long int bookall(long long int arr[1001],long long int n,long long int m)
+{
+	long long int sum =0;
+	for(int i=0 ;i<n ;i++)
+	{
+		sum = sum +arr[i];
+	}
+	long long int start=0;
+	long long int end = sum;
+	long long int ans= 0;
+	while(start<=end)
+	{
+		
+		long long int mid = start +(end -start)/2;
+		if(isvalid(arr,n,m,mid))
+		{
+							//search in the left part i.e the answer we computed can be a possible answer :. we will update our answer
+			end = mid-1;
+			ans = mid;
+		
+		}
+		else
+		{
+			start = mid+1;
+		}
+	}
+	return ans;
+}
+int main(){
+	int t;
+	cin>>t;
+	long long int arr[1001];
+	while(t--)
+	{
+		long long int n,m;
+		cin>>n>>m;
+		for(int i=0; i<n ;i++)
+		{
+			cin>>arr[i];
+		}
+		long long int result = bookall(arr,n,m);
+		cout<<result<<endl;
+	}
+	return 0;
+	
+}
